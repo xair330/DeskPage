@@ -605,6 +605,13 @@ html, body {
   height: 17px;
 }
 
+.icon-action-btn img {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  display: block;
+}
+
 .icon-action-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
