@@ -6,33 +6,24 @@
 
 const DEFAULT_CATEGORIES = [
   {
-    id: 'aviation',
-    name: 'Aviation',
-    color: '#60a5fa',
-    sites: [
-      { id: 'av-1', name: 'AirbusWorld',   url: 'https://www.airbusworld.com' },
-      { id: 'av-2', name: 'FlightAware',   url: 'https://flightaware.com' },
-      { id: 'av-3', name: 'Skybrary',      url: 'https://skybrary.aero' },
-      { id: 'av-4', name: 'ICAO',          url: 'https://www.icao.int' },
-      { id: 'av-5', name: 'CAAC',          url: 'http://www.caac.gov.cn' },
-      { id: 'av-6', name: '航空气象',       url: 'http://www.nmc.cn' },
-      { id: 'av-7', name: 'METAR',         url: 'https://aviationweather.gov/metar' },
-      { id: 'av-8', name: 'Skyvector',     url: 'https://skyvector.com' },
-    ]
-  },
-  {
     id: 'ai',
-    name: 'AI',
+    name: 'AI & Copilots',
     color: '#a78bfa',
     sites: [
       { id: 'ai-1', name: 'ChatGPT',       url: 'https://chat.openai.com' },
       { id: 'ai-2', name: 'Claude',        url: 'https://claude.ai' },
       { id: 'ai-3', name: 'Gemini',        url: 'https://gemini.google.com' },
       { id: 'ai-4', name: 'Perplexity',    url: 'https://www.perplexity.ai' },
-      { id: 'ai-5', name: 'Midjourney',    url: 'https://www.midjourney.com' },
-      { id: 'ai-6', name: 'Hugging Face',  url: 'https://huggingface.co' },
-      { id: 'ai-7', name: 'Suno AI',       url: 'https://suno.ai' },
-      { id: 'ai-8', name: 'Cursor',        url: 'https://cursor.sh' },
+    ]
+  },
+  {
+    id: 'dev',
+    name: 'Developer',
+    color: '#4ade80',
+    sites: [
+      { id: 'dev-1', name: 'GitHub',        url: 'https://github.com' },
+      { id: 'dev-2', name: 'Stack Overflow',url: 'https://stackoverflow.com' },
+      { id: 'dev-3', name: 'MDN Web Docs',  url: 'https://developer.mozilla.org' },
     ]
   },
   {
@@ -41,96 +32,24 @@ const DEFAULT_CATEGORIES = [
     color: '#f87171',
     sites: [
       { id: 'me-1', name: 'YouTube',       url: 'https://www.youtube.com' },
-      { id: 'me-2', name: 'Netflix',       url: 'https://www.netflix.com' },
-      { id: 'me-3', name: 'Bilibili',      url: 'https://www.bilibili.com' },
-      { id: 'me-4', name: 'U Music',       url: 'https://music.163.com' },
-      { id: 'me-5', name: 'Spotify',       url: 'https://open.spotify.com' },
-      { id: 'me-6', name: '爱奇艺',         url: 'https://www.iqiyi.com' },
-      { id: 'me-7', name: 'Twitter / X',   url: 'https://x.com' },
-      { id: 'me-8', name: 'Twitch',        url: 'https://www.twitch.tv' },
+      { id: 'me-2', name: 'Bilibili',      url: 'https://www.bilibili.com' },
+      { id: 'me-3', name: 'Netflix',       url: 'https://www.netflix.com' },
+      { id: 'me-4', name: 'Twitter / X',   url: 'https://x.com' },
     ]
   },
   {
-    id: 'shopping',
-    name: 'Shopping',
-    color: '#fb923c',
-    sites: [
-      { id: 'sh-1', name: '淘宝',           url: 'https://www.taobao.com' },
-      { id: 'sh-2', name: '京东',           url: 'https://www.jd.com' },
-      { id: 'sh-3', name: 'Amazon',        url: 'https://www.amazon.com' },
-      { id: 'sh-4', name: '拼多多',          url: 'https://www.pinduoduo.com' },
-      { id: 'sh-5', name: '1688',          url: 'https://www.1688.com' },
-      { id: 'sh-6', name: '什么值得买',      url: 'https://www.smzdm.com' },
-      { id: 'sh-7', name: '闲鱼',           url: 'https://www.goofish.com' },
-    ]
-  },
-  {
-    id: 'it',
-    name: 'IT',
-    color: '#4ade80',
-    sites: [
-      { id: 'it-1', name: 'GitHub',        url: 'https://github.com' },
-      { id: 'it-2', name: 'Stack Overflow',url: 'https://stackoverflow.com' },
-      { id: 'it-3', name: 'MDN',           url: 'https://developer.mozilla.org' },
-      { id: 'it-4', name: 'npm',           url: 'https://www.npmjs.com' },
-      { id: 'it-5', name: 'Docker Hub',    url: 'https://hub.docker.com' },
-      { id: 'it-6', name: 'Chiphell',      url: 'https://www.chiphell.com' },
-      { id: 'it-7', name: 'n8n.io',        url: 'https://n8n.io' },
-      { id: 'it-8', name: 'ASUS',          url: 'https://www.asus.com' },
-    ]
-  },
-  {
-    id: 'psychology',
-    name: 'Psychology',
-    color: '#f472b6',
-    sites: [
-      { id: 'ps-1', name: 'Psych Today',   url: 'https://www.psychologytoday.com' },
-      { id: 'ps-2', name: 'APA',           url: 'https://www.apa.org' },
-      { id: 'ps-3', name: 'ResearchGate',  url: 'https://www.researchgate.net' },
-      { id: 'ps-4', name: 'PubMed',        url: 'https://pubmed.ncbi.nlm.nih.gov' },
-      { id: 'ps-5', name: 'Coursera',      url: 'https://www.coursera.org' },
-      { id: 'ps-6', name: 'Khan Academy',  url: 'https://www.khanacademy.org' },
-    ]
-  },
-  {
-    id: 'vps',
-    name: 'VPS',
-    color: '#22d3ee',
-    sites: [
-      { id: 'vp-1', name: 'MetaCubeXD',   url: 'http://192.168.2.1' },
-      { id: 'vp-2', name: 'Vultr',         url: 'https://www.vultr.com' },
-      { id: 'vp-3', name: 'DigitalOcean',  url: 'https://www.digitalocean.com' },
-      { id: 'vp-4', name: 'Hetzner',       url: 'https://www.hetzner.com' },
-      { id: 'vp-5', name: 'Cloudflare',    url: 'https://dash.cloudflare.com' },
-      { id: 'vp-6', name: 'Linode',        url: 'https://www.linode.com' },
-      { id: 'vp-7', name: '搬瓦工',         url: 'https://bandwagonhost.com' },
-    ]
-  },
-  {
-    id: 'office',
-    name: 'Office',
+    id: 'work',
+    name: 'Workspace',
     color: '#fbbf24',
     sites: [
-      { id: 'of-1', name: 'Gmail',         url: 'https://mail.google.com' },
-      { id: 'of-2', name: 'Google Drive',  url: 'https://drive.google.com' },
-      { id: 'of-3', name: 'Google Docs',   url: 'https://docs.google.com' },
-      { id: 'of-4', name: 'Notion',        url: 'https://www.notion.so' },
-      { id: 'of-5', name: '飞书',           url: 'https://www.feishu.cn' },
-      { id: 'of-6', name: 'Outlook',       url: 'https://outlook.live.com' },
+      { id: 'wk-1', name: 'Gmail',         url: 'https://mail.google.com' },
+      { id: 'wk-2', name: 'Google Drive',  url: 'https://drive.google.com' },
+      { id: 'wk-3', name: 'Notion',        url: 'https://www.notion.so' },
+      { id: 'wk-4', name: 'Figma',         url: 'https://www.figma.com' },
     ]
-  },
-  {
-    id: 'other',
-    name: 'Other',
-    color: '#94a3b8',
-    sites: [
-      { id: 'ot-1', name: 'FSF',           url: 'https://www.fsf.org' },
-      { id: 'ot-2', name: 'Reddit',        url: 'https://www.reddit.com' },
-      { id: 'ot-3', name: 'Wikipedia',     url: 'https://www.wikipedia.org' },
-      { id: 'ot-4', name: 'Quora',         url: 'https://www.quora.com' },
-    ]
-  },
+  }
 ];
+
 
 const COLOR_PRESETS = [
   '#60a5fa', '#a78bfa', '#f87171', '#fb923c',
