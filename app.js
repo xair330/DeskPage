@@ -629,8 +629,7 @@ class DeskPageApp {
     // Search
     document.getElementById('search-form').addEventListener('submit', e => this._handleSearch(e));
 
-    // Top-right icon buttons
-    document.getElementById('refresh-btn').addEventListener('click', () => location.reload());
+    // Top-right icon buttons (github-btn is a plain <a> link, no binding needed)
     document.getElementById('add-category-btn').addEventListener('click', () => this._openModal('add-category-modal'));
     document.getElementById('settings-btn').addEventListener('click', () => {
       // Sync sliders to current settings
