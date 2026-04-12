@@ -629,7 +629,8 @@ class DeskPageApp {
     // Search
     document.getElementById('search-form').addEventListener('submit', e => this._handleSearch(e));
 
-    // Bottom bar (add-shortcut-btn removed; add via category + button)
+    // Top-right icon buttons
+    document.getElementById('refresh-btn').addEventListener('click', () => location.reload());
     document.getElementById('add-category-btn').addEventListener('click', () => this._openModal('add-category-modal'));
     document.getElementById('settings-btn').addEventListener('click', () => {
       // Sync sliders to current settings
