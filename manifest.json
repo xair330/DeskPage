@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "DeskPage 导航",
+  "short_name": "DeskPage",
+  "version": "1.0.0",
+  "description": "自定义Chrome新标签页 - 分类快捷方式 + 背景图上传",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage"]
+}

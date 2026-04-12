@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskPage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div id="bg-gradient"></div>
+  <div id="bg-cover"></div>
+  <div id="bg-dim"></div>
+
+  <!-- Main app -->
+  <div id="app">
+
+    <!-- Header: Brand + Clock + Search -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-left">
+          <span class="brand-name">DeskPage</span>
+          <span class="creator-credit">by Xair330</span>
+        </div>
+        <div class="brand-sep"></div>
+        <div class="brand-clock">
+          <div id="clock-time" class="clock-time">00:00</div>
+          <div id="clock-date" class="clock-date">加载中...</div>
+        </div>
+      </div>
+      <form class="search-form" id="search-form" method="get" action="https://www.google.com/search" target="_blank">
+        <div class="search-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" name="q" id="search-input" class="search-input" placeholder="搜索 Google 或输入网址..." autocomplete="off">
+          <button type="submit" class="search-submit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </header>
+
+    <!-- System Status -->
+    <div class="system-status" id="system-status">
+      <div class="status-header-row">
+        <span class="status-section-label">System Status</span>
+      </div>
+      <div class="status-cards" id="status-cards">
+        <!-- Dynamically rendered by app.js -->
+      </div>
+    </div>
+
+    <!-- Categories grid -->
+    <main class="categories-container" id="categories-container">
+      <!-- Dynamically rendered by app.js -->
+    </main>
+
+    <!-- Top-right action icons -->
+    <div class="top-actions">
+      <button class="icon-action-btn" id="refresh-btn" title="刷新页面" onclick="location.reload()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"/>
+          <path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+      </button>
+      <button class="icon-action-btn" id="add-category-btn" title="新建分类">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          <line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/>
+        </svg>
+      </button>
+      <button class="icon-action-btn" id="settings-btn" title="设置">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Modal overlay -->
+  <div id="modal-overlay" class="modal-overlay"></div>
+
+  <!-- ===== Add Shortcut Modal ===== -->
+  <div id="add-shortcut-modal" class="modal">
+    <div class="modal-header">
+      <h3>添加快捷方式</h3>
+      <button class="modal-close" data-modal="add-shortcut-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="new-site-name">网站名称</label>
+        <input type="text" id="new-site-name" placeholder="例如：GitHub" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="new-site-url">网站地址</label>
+        <input type="text" id="new-site-url" placeholder="https://github.com" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="new-site-category">所属分类</label>
+        <select id="new-site-category"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" data-modal="add-shortcut-modal">取消</button>
+      <button class="btn btn-primary" id="confirm-add-shortcut">添加</button>
+    </div>
+  </div>
+
+  <!-- ===== Add Category Modal ===== -->
+  <div id="add-category-modal" class="modal">
+    <div class="modal-header">
+      <h3>新建分类</h3>
+      <button class="modal-close" data-modal="add-category-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="new-cat-name">分类名称（可加 Emoji）</label>
+        <input type="text" id="new-cat-name" placeholder="例如：✈️ 航空" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>主题颜色</label>
+        <div class="color-picker-row">
+          <input type="color" id="new-cat-color" value="#60a5fa">
+          <div class="color-presets" id="color-presets"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" data-modal="add-category-modal">取消</button>
+      <button class="btn btn-primary" id="confirm-add-category">创建</button>
+    </div>
+  </div>
+
+  <!-- ===== Settings Modal ===== -->
+  <div id="settings-modal" class="modal modal-lg">
+    <div class="modal-header">
+      <h3>⚙️ 设置</h3>
+      <button class="modal-close" data-modal="settings-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="settings-section">
+        <div class="settings-title">🖼️ 背景图片</div>
+        <div class="bg-preview-container">
+          <img id="bg-preview-img" alt="背景预览">
+          <div id="bg-no-preview" class="bg-no-preview">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>暂无背景图片</span>
+          </div>
+        </div>
+        <div class="bg-controls">
+          <label class="btn btn-primary" for="bg-upload">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            上传图片
+          </label>
+          <input type="file" id="bg-upload" accept="image/*">
+          <button class="btn btn-secondary" id="clear-bg-btn">清除背景</button>
+        </div>
+        <div class="form-group" style="margin-top:16px">
+          <label for="bg-blur">背景模糊</label>
+          <div class="slider-row">
+            <input type="range" id="bg-blur" min="0" max="20" value="0">
+            <span id="bg-blur-value" class="slider-label">0px</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="bg-dim">遮罩暗度</label>
+          <div class="slider-row">
+            <input type="range" id="bg-dim-range" min="0" max="85" value="40">
+            <span id="bg-dim-value" class="slider-label">40%</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="settings-divider">
+
+      <div class="settings-section">
+        <div class="settings-title">🗄️ 数据管理</div>
+        <p class="settings-desc">重置将清除所有自定义的快捷方式和分类，恢复出厂默认数据。</p>
+        <button class="btn btn-danger" id="reset-data-btn">重置所有数据</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-menu" class="context-menu">
+    <div class="context-item" id="ctx-add-site">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      添加快捷方式
+    </div>
+    <div class="context-separator"></div>
+    <div class="context-item context-danger" id="ctx-delete-category">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+        <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+      </svg>
+      删除此分类
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Bookmark drag-in drop overlay -->
+  <div id="drop-zone" class="drop-zone" aria-hidden="true">
+    <div class="drop-zone-inner">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+           width="40" height="40">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+      <span>Drop to add to DeskPage</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
