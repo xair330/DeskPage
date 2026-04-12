@@ -241,6 +241,8 @@ class DeskPageApp {
     this.settings   = { blur: 0, dim: 40 };
     this._contextCatId = null;
     this._bgObjectUrl  = null;
+    this.faviconCache  = {};
+    this._fetchingFavs = new Set();
   }
 
   // ---------- Init ----------
@@ -267,6 +269,8 @@ class DeskPageApp {
 
     const savedSettings = await Storage.get('settings');
     if (savedSettings) this.settings = { ...this.settings, ...savedSettings };
+
+    this.faviconCache = await Storage.get('favicons') || {};
   }
 
   async _saveCategories() {
@@ -319,14 +323,24 @@ class DeskPageApp {
   }
 
   _renderSite(site, catId, catColor = '#60a5fa') {
-    const fav = this._faviconUrl(site.url);
+    let hostname = '';
+    try { hostname = new URL(site.url).hostname; } catch {}
+    
+    // 如果有本地缓存的 base64 则使用，否则使用在线获取
+    const fav = (hostname && this.faviconCache[hostname]) ? this.faviconCache[hostname] : this._faviconUrl(site.url);
     const initial = (site.name.replace(/[^\w\u4e00-\u9fa5]/g, '')[0] || '?').toUpperCase();
+    
+    // 如果没有缓存，则加入异步抓取队列（确保不会重复抓取）
+    if (hostname && !this.faviconCache[hostname]) {
+      this._queueFaviconCache(hostname, site.url);
+    }
+
     return `
       <a class="site-item" href="${this._esc(site.url)}" target="_blank"
          data-site-id="${this._esc(site.id)}" data-cat-id="${this._esc(catId)}"
          style="--cat-color:${this._esc(catColor)}" draggable="true">
         <div class="site-favicon-wrap">
-          <img class="site-favicon" src="${fav}" alt=""
+          <img class="site-favicon" src="${fav}" data-domain="${this._esc(hostname)}" alt=""
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="site-favicon-fallback">${initial}</div>
         </div>
@@ -340,6 +354,36 @@ class DeskPageApp {
       const { hostname } = new URL(url);
       return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=32`;
     } catch { return ''; }
+  }
+
+  async _queueFaviconCache(hostname, url) {
+    if (this._fetchingFavs.has(hostname)) return;
+    this._fetchingFavs.add(hostname);
+    
+    try {
+      const fetchUrl = this._faviconUrl(url);
+      const req = await fetch(fetchUrl, { cache: 'force-cache' });
+      if (!req.ok) return;
+      const blob = await req.blob();
+      if (blob.size === 0 || !blob.type.startsWith('image/')) return;
+      
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result;
+        this.faviconCache[hostname] = base64;
+        await Storage.set('favicons', this.faviconCache);
+        
+        // 更新当前页面上所有相关的 DOM img
+        document.querySelectorAll(`img.site-favicon[data-domain="${this._esc(hostname)}"]`).forEach(img => {
+          img.src = base64;
+          img.style.display = 'block';
+          if (img.nextElementSibling) img.nextElementSibling.style.display = 'none';
+        });
+      };
+      reader.readAsDataURL(blob);
+    } catch (e) {
+      console.warn('Failed to cache favicon for', hostname, e);
+    }
   }
 
   _esc(str) {
