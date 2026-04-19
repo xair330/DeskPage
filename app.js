@@ -327,6 +327,23 @@ class DeskPageApp {
       });
     });
 
+    // Site card clicks (handle local file specifically to bypass Chrome security limits)
+    document.querySelectorAll('.site-item').forEach(item => {
+      item.addEventListener('click', e => {
+        if (e.target.closest('.site-delete-btn')) return;
+        const url = item.getAttribute('href');
+        if (url && url.startsWith('file://')) {
+          e.preventDefault();
+          if (typeof chrome !== 'undefined' && chrome.tabs) {
+            chrome.tabs.create({ url: url });
+          } else {
+            window.open(url, '_blank');
+          }
+        }
+      });
+    });
+
+
     // Category "+" button
     document.querySelectorAll('.cat-add-btn').forEach(btn => {
       btn.addEventListener('click', () => this._openAddSite(btn.dataset.catId));
