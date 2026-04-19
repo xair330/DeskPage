@@ -245,12 +245,13 @@ class DeskPageApp {
     let hostname = '';
     try { hostname = new URL(site.url).hostname; } catch {}
     
+    const isFile = /^file:\/\//i.test(site.url);
     // 如果有本地缓存的 base64 则使用，否则使用在线获取
     const fav = (hostname && this.faviconCache[hostname]) ? this.faviconCache[hostname] : this._faviconUrl(site.url);
     const initial = (site.name.replace(/[^\w\u4e00-\u9fa5]/g, '')[0] || '?').toUpperCase();
     
     // 如果没有缓存，则加入异步抓取队列（确保不会重复抓取）
-    if (hostname && !this.faviconCache[hostname]) {
+    if (hostname && !this.faviconCache[hostname] && !isFile) {
       this._queueFaviconCache(hostname, site.url);
     }
 
@@ -269,6 +270,7 @@ class DeskPageApp {
   }
 
   _faviconUrl(url) {
+    if (/^file:\/\//i.test(url)) return 'icons/icon48.png'; // 本地文件使用默认扩展图标
     try {
       const { hostname } = new URL(url);
       return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=32`;
@@ -381,7 +383,8 @@ class DeskPageApp {
     const catId = document.getElementById('new-site-category').value;
 
     if (!name || !url) { this._showToast('请填写名称和网址'); return; }
-    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+    // 如果没有协议头，才默认补上 https://
+    if (!/^[a-z]+:\/\//i.test(url)) url = 'https://' + url;
 
     const cat = this.categories.find(c => c.id === catId);
     if (!cat) return;
@@ -723,7 +726,7 @@ class DeskPageApp {
     const raw = e.dataTransfer.getData('text/uri-list') ||
                 e.dataTransfer.getData('text/plain') || '';
     const url = raw.split(/\r?\n/).map(s => s.trim())
-                   .find(s => /^https?:\/\//i.test(s));
+                   .find(s => /^[a-z]+:\/\//i.test(s));
     if (!url) return;
 
     // Try to extract a human-readable name from dragged HTML
@@ -734,7 +737,15 @@ class DeskPageApp {
       name = (doc.querySelector('a')?.textContent || doc.body.textContent || '').trim();
     }
     if (!name) {
-      try { name = new URL(url).hostname.replace(/^www\./, ''); } catch {}
+      try {
+        if (/^file:\/\//i.test(url)) {
+          // 解码并在去除后缀的同时拿到干净的文件名
+          let decoded = decodeURIComponent(url);
+          name = decoded.split('/').pop().replace(/\.html?$/i, '');
+        } else {
+          name = new URL(url).hostname.replace(/^www\./, '');
+        }
+      } catch {}
     }
 
     // Open the add-shortcut modal pre-filled with url & name
